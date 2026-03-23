@@ -1,9 +1,9 @@
 const content = document.querySelector("#content");
 const submit = document.querySelector('#add');
 const update = document.querySelector("#update");
-const API_URL = 'https://movie-streaming-m701.onrender.com/api/users'; //change kapag paltan local host
+const API_URL = 'https://movie-streaming-m701.onrender.com/api/users'; //Matches your backend route
 
-// ADD
+// CREATE
 submit.addEventListener('click', () => {
     const formData = {
         user_name: document.querySelector('#user_name').value,
@@ -19,14 +19,11 @@ submit.addEventListener('click', () => {
         body: JSON.stringify(formData),
         headers: { "Content-Type": "application/json" }
     })
-    .then(() => { 
-        alert("Record Added Successfully"); 
-        location.reload(); 
-    })
+    .then(() => { alert("Added!"); location.reload(); })
     .catch(err => console.error(err));
 });
 
-// LOAD on page load
+// READ (All)
 window.addEventListener('load', getRecords);
 
 function getRecords(){
@@ -35,32 +32,31 @@ function getRecords(){
     .then(data => {
         let html = "";
         data.forEach(el => {
-            html += `<li>
-                ${el.movie_title} - ${el.user_name} | ${el.genre} | ⭐${el.rating} 
-                <button onclick="editRecord(${el.id})">Edit</button>
-                <button onclick="deleteRecord(${el.id})">Delete</button>
-            </li>`;
+            html += `<tr>
+                <td>${el.id}</td><td>${el.user_name}</td><td>${el.movie_title}</td>
+                <td>${el.genre}</td><td>${el.subscription_type}</td>
+                <td>${el.device_used}</td><td>${el.rating}</td>
+                <td>
+                    <button onclick="editRecord(${el.id})">Edit</button>
+                    <button onclick="deleteRecord(${el.id})">Delete</button>
+                </td>
+            </tr>`;
         });
         content.innerHTML = html;
     })
     .catch(err => console.error(err));
 }
 
-// ️ DELETE
+// DELETE
 function deleteRecord(id){
-    if(confirm("Are you sure you want to delete this record?")){
-        fetch(`${API_URL}/${id}`, { 
-            method: 'DELETE' 
-        })
-        .then(() => { 
-            alert("Record Deleted Successfully"); 
-            location.reload(); 
-        })
+    if(confirm("Delete?")){
+        fetch(`${API_URL}/${id}`, { method: 'DELETE' })
+        .then(() => { alert("Deleted!"); location.reload(); })
         .catch(err => console.error(err));
     }
 }
 
-// EDIT (prefill form)
+// EDIT (Load Data)
 function editRecord(id){
     fetch(`${API_URL}/${id}`)
     .then(res => res.json())
@@ -93,9 +89,35 @@ update.addEventListener('click', () => {
         body: JSON.stringify(formData),
         headers: { "Content-Type": "application/json" }
     })
-    .then(() => { 
-        alert("Record Updated Successfully"); 
-        location.reload(); 
-    })
+    .then(() => { alert("Updated!"); location.reload(); })
     .catch(err => console.error(err));
 });
+
+// SEARCH
+function searchGenre(){
+    const genre = document.querySelector('#searchBox').value;
+    fetch(`${API_URL}/genre/${genre}`)
+    .then(res => res.json())
+    .then(data => {
+        let html = "";
+        data.forEach(el => {
+            html += `<tr>
+                <td>${el.id}</td><td>${el.user_name}</td><td>${el.movie_title}</td>
+                <td>${el.genre}</td><td>${el.subscription_type}</td>
+                <td>${el.device_used}</td><td>${el.rating}</td>
+                <td>
+                    <button onclick="editRecord(${el.id})">Edit</button>
+                    <button onclick="deleteRecord(${el.id})">Delete</button>
+                </td>
+            </tr>`;
+        });
+        content.innerHTML = html;
+    })
+    .catch(err => console.error(err));
+}
+
+function resetForm(){
+    document.querySelector('#user_name').value = '';
+    document.querySelector('#movie_title').value = '';
+    document.querySelector('#record_id').value = '';
+}
