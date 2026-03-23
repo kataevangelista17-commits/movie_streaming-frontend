@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Streaming</title>
+</head>
+<body>
+    <h1> Movie Streaming Records</h1>
+    
+    <div id="container" style="display: flex">
+        <div id="form" style="padding-right: 2rem;">
+            <label>User Name</label>
+            <input type="text" id="user_name"><br>
+
+            <label>Movie Title</label>
+            <input type="text" id="movie_title"><br>
+
+            <label>Genre</label>
+            <select id="genre">
+                <option value="Action">Action</option>
+                <option value="Animation">Animation</option>
+                <option value="Sci-Fi">Sci-Fi</option>
+                <option value="Romance">Romance</option>
+            </select><br>
+
+            <label>Subscription</label>
+            <select id="subscription_type">
+                <option value="Basic">Basic</option>
+                <option value="Standard">Standard</option>
+                <option value="Premium">Premium</option>
+            </select><br>
+
+            <label>Device</label>
+            <select id="device_used">
+                <option value="Mobile">Mobile</option>
+                <option value="TV">TV</option>
+                <option value="Laptop">Laptop</option>
+                <option value="Tablet">Tablet</option>
+            </select><br>
+
+            <label>Rating (1-5)</label>
+            <input type="number" id="rating" min="1" max="5"><br>
+
+            <button id="add">Add</button>
+            <button id="update">Update</button>
+            <input type="hidden" id="record_id">
+        </div>
+    </div>
+
+    <ul id="content"></ul>
+
+    <script src="frontend.js"></script>
+</body>
+</html>
