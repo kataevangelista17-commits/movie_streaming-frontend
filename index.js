@@ -1,7 +1,7 @@
 const content = document.querySelector("#content");
 const submit = document.querySelector('#add');
 const update = document.querySelector("#update");
-const API_URL = 'http://localhost:3000/api/users'; //change kapag paltan local host
+const API_URL = 'https://movie-streaming-m701.onrender.com/api/users'; //change kapag paltan local host
 
 // ADD
 submit.addEventListener('click', () => {
